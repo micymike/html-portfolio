@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Michael Moses - Portfolio</title>
+    <script src="https://js.puter.com/v2/"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .section {
+            background: white;
+            margin: 2rem 0;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .skill-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        /* Chatbot Styles */
+        .chatbot-section {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chatbot-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="25" cy="25" r="2" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="3" fill="white" opacity="0.05"/><circle cx="50" cy="10" r="1" fill="white" opacity="0.1"/></svg>');
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-100px); }
+        }
+
+        .chatbot-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .chatbot-intro {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .chatbot-intro h2 {
+            color: white;
+            border-bottom: 3px solid white;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+        }
+
+        .chat-interface {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            border: 2px solid #e1e5e9;
+            border-radius: 15px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: white;
+            scroll-behavior: smooth;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-bubble {
+            max-width: 70%;
+            padding: 0.75rem 1rem;
+            border-radius: 18px;
+            word-wrap: break-word;
+        }
+
+        .message.user .message-bubble {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.bot .message-bubble {
+            background: #f1f3f4;
+            color: #333;
+            border-bottom-left-radius: 4px;
+        }
+
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .user-avatar {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .bot-avatar {
+            background: #34a853;
+            color: white;
+        }
+
+        .chat-input-container {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex-grow: 1;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 25px;
+            outline: none;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .chat-input:focus {
+            border-color: #667eea;
+        }
+
+        .send-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+            font-size: 1.2rem;
+        }
+
+        .send-button:hover {
+            transform: scale(1.05);
+        }
+
+        .send-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .instructions {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .sample-questions {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+        }
+
+        .sample-questions h3 {
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .sample-questions ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sample-questions li {
+            background: rgba(255, 255, 255, 0.1);
+            margin: 0.5rem 0;
+            padding: 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .sample-questions li:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            background: #f1f3f4;
+            border-radius: 18px;
+            border-bottom-left-radius: 4px;
+            max-width: fit-content;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 0.2rem;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #666;
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.1);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .contact-info a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .contact-info a:hover {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section {
+                margin: 1rem 0;
+                padding: 2rem 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .chat-interface {
+                padding: 1rem;
+            }
+
+            .message-bubble {
+                max-width: 85%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">Michael Moses</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#chatbot">AI Assistant</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="container">
+                <h1>Michael Moses</h1>
+                <p>Generative AI Developer</p>
+                <p>Building intelligent solutions with cutting-edge AI technologies</p>
+            </div>
+        </section>
+
+        <div class="container">
+            <section id="about" class="section">
+                <h2>About Me</h2>
+                <p>I'm a passionate generative AI developer from Kenya. My journey began with a fascination for artificial intelligence and its potential to revolutionize how we interact with technology, leading me to specialize in building generative AI systems and intelligent applications.</p>
+                <p>Through DirectEd's transformative program, I've gained access to world-class education and mentorship, enabling me to develop both technical skills and leadership capabilities. I'm committed to using technology to create positive impact in my community and beyond.</p>
+            </section>
+
+            <section id="projects" class="section">
+                <h2>Featured Projects</h2>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <h3>E-Commerce Platform</h3>
+                        <p>A full-stack e-commerce solution built with React, Node.js, and MongoDB. Features include user authentication, payment integration, and admin dashboard.</p>
+                        <p><strong>Technologies:</strong> React, Node.js, Express, MongoDB, Stripe API</p>
+                    </div>
+                    <div class="project-card">
+                        <h3>Task Management App</h3>
+                        <p>A collaborative task management application with real-time updates, team collaboration features, and project tracking capabilities.</p>
+                        <p><strong>Technologies:</strong> Vue.js, Firebase, Socket.io, CSS3</p>
+                    </div>
+                    <div class="project-card">
+                        <h3>Weather Dashboard</h3>
+                        <p>An interactive weather dashboard that provides real-time weather data, forecasts, and climate analytics with beautiful data visualizations.</p>
+                        <p><strong>Technologies:</strong> JavaScript, D3.js, REST APIs, HTML5/CSS3</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="skills" class="section">
+                <h2>Technical Skills</h2>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <h3>Frontend</h3>
+                        <p>React, Vue.js, JavaScript (ES6+), HTML5, CSS3, Responsive Design</p>
+                    </div>
+                    <div class="skill-card">
+                        <h3>Backend</h3>
+                        <p>Node.js, Express, Python, Django, RESTful APIs, GraphQL</p>
+                    </div>
+                    <div class="skill-card">
+                        <h3>Database</h3>
+                        <p>MongoDB, PostgreSQL, MySQL, Firebase, Redis</p>
+                    </div>
+                    <div class="skill-card">
+                        <h3>DevOps & Tools</h3>
+                        <p>Git, Docker, AWS, Heroku, CI/CD, Webpack, npm/yarn</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <section id="chatbot" class="chatbot-section section">
+            <div class="container chatbot-container">
+                <div class="chatbot-intro">
+                    <h2>🤖 AI Assistant</h2>
+                    <p>Ask me anything about my background, skills, projects, or DirectEd journey!</p>
+                </div>
+
+                <div class="instructions">
+                    <p><strong>Instructions:</strong> Ask me about my background, skills, projects, DirectEd experience, or how to contact me. I'm here to help you learn more about my professional journey!</p>
+                </div>
+
+                <div class="chat-interface">
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message bot">
+                            <div class="message-avatar bot-avatar">AI</div>
+                            <div class="message-bubble">
+                                Hi! I'm Michael's AI assistant. I can tell you about Michael's background, skills, projects, AI journey, and how to get in touch. What would you like to know?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="typing-indicator" id="typingIndicator">
+                        <div class="message-avatar bot-avatar">AI</div>
+                        <div class="typing-dots">
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                        </div>
+                        <span>Thinking...</span>
+                    </div>
+
+                    <div class="chat-input-container">
+                        <input type="text" class="chat-input" id="chatInput" placeholder="Ask me about Michael's background, skills, or projects...">
+                        <button class="send-button" id="sendButton">➤</button>
+                    </div>
+                </div>
+
+                <div class="sample-questions">
+                    <h3>Sample Questions (Click to try):</h3>
+                    <ul>
+                        <li onclick="askQuestion('Who are you?')">❓ Who are you?</li>
+                        <li onclick="askQuestion('What projects have you worked on?')">🚀 What projects have you worked on?</li>
+                        <li onclick="askQuestion('What are your main skills?')">💻 What are your main skills?</li>
+                        <li onclick="askQuestion('Why did you join DirectEd?')">🎓 Why did you join DirectEd?</li>
+                        <li onclick="askQuestion('How can someone contact you?')">📧 How can someone contact you?</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="container">
+            <section id="contact" class="section">
+                <h2>Get In Touch</h2>
+                <p>I'm always open to discussing new opportunities, collaborations, or just connecting with fellow developers. Feel free to reach out!</p>
+                <div class="contact-info">
+                    <a href="mailto:michael.moses@email.com">📧 michael.moses@email.com</a>
+                    <a href="https://linkedin.com/in/michaelmoses">💼 LinkedIn</a>
+                    <a href="https://github.com/michaelmoses">💻 GitHub</a>
+                    <a href="tel:+254712345678">📱 +254 712 345 678</a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Michael Moses. Built with passion and powered by generative AI.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Personal context for the AI chatbot
+        const personalContext = `
+        You are an AI assistant representing Michael Moses, a generative AI developer. Here's the comprehensive information about Michael:
+
+        PERSONAL BACKGROUND:
+        - Name: Michael Moses
+        - Location: Nairobi, Kenya
+        - Role: Generative AI Developer
+        - Passion: Building intelligent systems and creative AI solutions that push the boundaries of technology
+
+        TECHNICAL SKILLS:
+        - Generative AI: Large Language Models (LLMs), Diffusion Models, Transformers, Prompt Engineering
+        - Machine Learning: Python, PyTorch, TensorFlow, Scikit-learn
+        - Frontend: React, JavaScript (ES6+), HTML5, CSS3, Data Visualization
+        - Backend: Node.js, Express, RESTful APIs, FastAPI
+        - Database: MongoDB, PostgreSQL, Firebase
+        - DevOps & Tools: Git, Docker, AWS, CI/CD, Webpack, npm/yarn
+        - Additional: NLP, Computer Vision, Model Deployment, AI Ethics
+
+        FEATURED PROJECTS:
+        1. AI Art Generator:
+           - Web app for generating art using diffusion models and custom prompts
+           - Features: Real-time image generation, prompt customization, gallery
+           - Technologies: React, Python, PyTorch, FastAPI
+
+        2. Conversational AI Platform:
+           - Multi-channel chatbot platform powered by LLMs
+           - Features: Contextual chat, integrations, analytics dashboard
+           - Technologies: Node.js, React, OpenAI API, MongoDB
+
+        3. Smart Document Summarizer:
+           - Tool for summarizing and extracting insights from large documents using generative models
+           - Features: Summarization, keyword extraction, export options
+           - Technologies: Python, Transformers, Streamlit
+
+        CONTACT INFORMATION:
+        - Email: michael.moses@email.com
+        - Phone: +254 712 345 678
+        - LinkedIn: https://linkedin.com/in/michaelmoses
+        - GitHub: https://github.com/michaelmoses
+        - Location: Nairobi, Kenya
+
+        PROFESSIONAL PHILOSOPHY:
+        - Committed to advancing generative AI for positive impact
+        - Believes in the power of AI to transform industries and empower creativity
+        - Passionate about building innovative solutions that solve real problems
+        - Dedicated to continuous learning and sharing knowledge with the community
+        - Values ethical AI development and responsible innovation
+
+        When answering questions, be conversational, enthusiastic, and informative. Always respond as if you are representing Michael directly. Provide specific details when asked about projects, skills, or experiences. Be proud of your work in generative AI and its impact on technology.
+        `;
+
+        // Initialize Puter
+        let puterInitialized = false;
+
+        async function initializePuter() {
+            if (puterInitialized) return;
+            
+            try {
+                console.log('Initializing Puter...');
+                puterInitialized = true;
+            } catch (error) {
+                console.error('Error initializing Puter:', error);
+                puterInitialized = false;
+            }
+        }
+
+        // Chat functionality
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendButton = document.getElementById('sendButton');
+        const typingIndicator = document.getElementById('typingIndicator');
+
+        // Initialize Puter when page loads
+        window.addEventListener('load', initializePuter);
+
+        function addMessage(content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+            
+            const avatarDiv = document.createElement('div');
+            avatarDiv.className = `message-avatar ${isUser ? 'user-avatar' : 'bot-avatar'}`;
+            avatarDiv.textContent = isUser ? 'U' : 'AI';
+            
+            const bubbleDiv = document.createElement('div');
+            bubbleDiv.className = 'message-bubble';
+            bubbleDiv.textContent = content;
+            
+            if (isUser) {
+                messageDiv.appendChild(bubbleDiv);
+                messageDiv.appendChild(avatarDiv);
+            } else {
+                messageDiv.appendChild(avatarDiv);
+                messageDiv.appendChild(bubbleDiv);
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            typingIndicator.style.display = 'flex';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            typingIndicator.style.display = 'none';
+        }
+
+        async function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+
+            // Add user message
+            addMessage(message, true);
+            chatInput.value = '';
+            sendButton.disabled = true;
+
+            // Show typing indicator
+            showTypingIndicator();
+
+            try {
+                // Initialize Puter if not already done
+                await initializePuter();
+
+                // Create the full prompt with context
+                const fullPrompt = `${personalContext}\n\nUser question: ${message}\n\nPlease respond as Alex Johnson's AI assistant, providing helpful and accurate information based on the context above.`;
+
+                // Use Puter AI chat
+                const response = await puter.ai.chat(fullPrompt, {
+                    model: 'gpt-4',
+                    temperature: 0.7,
+                    max_tokens: 500
+                });
+
+                hideTypingIndicator();
+                
+                // Add bot response
+                if (response && response.message) {
+                    addMessage(response.message);
+                } else {
+                    addMessage("I'm here to help! Ask me about Alex's background, skills, projects, DirectEd journey, or contact information.");
+                }
+
+            } catch (error) {
+                console.error('Error sending message:', error);
+                hideTypingIndicator();
+                
+                // Fallback responses based on common questions
+                const fallbackResponse = getFallbackResponse(message.toLowerCase());
+                addMessage(fallbackResponse);
+            }
+
+            sendButton.disabled = false;
+        }
+
+        function getFallbackResponse(message) {
+            // Simple keyword-based responses as fallback
+            if (message.includes('who are you') || message.includes('about')) {
+                return "I'm Michael Moses, a generative AI developer from Nairobi, Kenya. I'm passionate about building intelligent systems and creative AI solutions that make a real impact.";
+            } else if (message.includes('project')) {
+                return "I've worked on several exciting projects including an AI Art Generator with diffusion models, a Conversational AI Platform powered by LLMs, and a Smart Document Summarizer using generative models.";
+            } else if (message.includes('skill')) {
+                return "My main skills include generative AI (LLMs, diffusion models), machine learning (Python, PyTorch, TensorFlow), frontend (React, JavaScript), backend (Node.js, FastAPI), and AI deployment.";
+            } else if (message.includes('directed') || message.includes('direct')) {
+                return "I'm passionate about using AI to create positive impact and advance technology. My journey is focused on generative AI, machine learning, and building intelligent systems.";
+            } else if (message.includes('contact')) {
+                return "You can reach me at michael.moses@email.com, call me at +254 712 345 678, or connect with me on LinkedIn (linkedin.com/in/michaelmoses) and GitHub (github.com/michaelmoses).";
+            } else {
+                return "I'm here to help you learn about Michael Moses's background, skills, projects, AI journey, and contact information. What would you like to know?";
+            }
+        }
+
+        function askQuestion(question) {
+            chatInput.value = question;
+            sendMessage();
+        }
+
+        // Event listeners
+        sendButton.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate skill cards on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe skill cards and project cards
+            document.querySelectorAll('.skill-card, .project-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>
